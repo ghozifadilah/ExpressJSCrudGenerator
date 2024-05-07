@@ -5,6 +5,10 @@ function DatabaseTemplate(configStorage) {
     var password = configStorage.database.password;
     var database = configStorage.database.database;
 
+    if (password == '') {
+        password = '""';
+    }
+
     var databaseExport = `
         var mysql = require('mysql')
 
