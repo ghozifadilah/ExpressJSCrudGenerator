@@ -36,7 +36,7 @@ function IndexTemplate(configStorage) {
 
     // Get list of table 
     let keyDataStorage = localStorage.getItem("keyData");
-    
+    let authStorage = localStorage.getItem("configAuth");
 
     if (keyDataStorage != null) {
         keyDataStorage = JSON.parse(keyDataStorage);
@@ -48,6 +48,11 @@ function IndexTemplate(configStorage) {
              `;
 
         }
+    }
+
+    if (authStorage != null) {
+        authStorage = JSON.parse(authStorage);
+        route += `require("./controller/Login")(app);`;
     }
 
     var indexExport = `

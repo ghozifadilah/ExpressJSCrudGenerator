@@ -237,6 +237,8 @@ function save() {
     let configStorage = localStorage.getItem("configApp");
     configStorage = JSON.parse(configStorage);
 
+
+
     $('#codeEditorProject').removeClass('hidden');
 
     // show code of database.js
@@ -251,9 +253,21 @@ function save() {
     let codePackage = packageJsonTemplate(configStorage);
     codePackage = '<pre><code class="javascript">' + codePackage + '</code></pre>';
 
+    
     $("#exportedPackage").html(codePackage);
     $("#exportedIndex").html(codeIndex);
     $("#exportedDatabase").html(codeDatabase);
+
+    // jika pakai table authentication
+    let authStorage = localStorage.getItem("configAuth");
+    if (authStorage != null) {
+        authStorage = JSON.parse(authStorage);
+        let codeAuth = AuthenticationTemplate(authStorage.auth.field, authStorage.auth.table);
+        codeAuth = '<pre><code class="javascript">' + codeAuth + '</code></pre>';
+        $("#exportedAuthTable").html(codeAuth); // table user authentication
+    }
+
+
     hljs.highlightAll();
 
 

@@ -80,6 +80,7 @@
                         <!-- button untuk tambah table -->
                         <p style="font-weight: bold;" >  List Tables</p>
                         <a  type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#tambahTable" >Add Table <i class="fa-solid fa-plus" ></i></a>
+                        <a  type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#authModal" >Add Auth Table <i class="fa-solid fa-key" ></i></a>
                         <hr>
                         <ul class="list-group" id="listTables">
                         <!-- List Table yang di simpan -->
@@ -128,18 +129,19 @@
         
         </div>
         <!-- code editor menampung index.js, package.json , database.js  -->
-        <div id="codeEditorProject" class="row mt-3 hidden" >
+        <div id="codeEditorProject" class="row mt-3 hidden justify-content-center" >
 
-            <div class="col-md-4">
+            <div class="col-md-6">
+                <hr>
                 <label for="exportedController"> project/config/database.js </label> 
-                <br>
                 <div id ="exportedDatabase" >
 
                 </div>
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
+                <hr>
                 <label for="exportedController"> project/index.js </label> 
                 <div id ="exportedIndex" style="height: 400px;overflow: auto;">
 
@@ -147,9 +149,18 @@
               
             </div>
            
-            <div class="col-md-4">
+            <div class="col-md-6">
+                <hr>
                 <label for="exportedController"> project/package.json </label> 
                 <div id ="exportedPackage" style="height: 400px;overflow: auto;">
+
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <hr>
+                <label for="exportedAuthTable"> controller/login.js </label> 
+                <div id ="exportedAuthTable" style="height: 400px;overflow: auto;">
 
                 </div>
 
@@ -257,6 +268,44 @@
     </div>
   </div>
 
+  <!-- Modal -->
+  <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fs-5" id="authModalLabel">Authentication User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label for="namaTableAuth" class="form-label">Nama Table Auth</label>
+                <input type="text" class="form-control" id="namaTableAuth" placeholder="Masukan Project">
+            </div>
+            <div class="mb-3">
+                <label for="portProject" class="form-label">Masukan Jumlah Field</label>
+                <input type="number" class="form-control" id="authField" placeholder="jumlah">
+            </div>
+
+            <a onclick="nextAuth()" class="btn btn-sm btn-secondary me-1" onclick="">Next</a>
+
+            <hr>
+
+            <div class="mt-1 " id="fieldAuth">
+
+
+            </div>
+       
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button onclick="saveAuthTable()" type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal tambah Modal-->
   <div class="modal fade" id="tambahTable" tabindex="-1" aria-labelledby="tambahTableLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -271,6 +320,7 @@
                 <label for="namaTable" class="form-label">Nama Table</label>
                 <input type="text" class="form-control" id="namaTable" placeholder="Masukan Nama Table">
             </div>
+
             <div class="mb-3">
                 <label for="jumlahRow" class="form-label">Jumlah Row Table</label>
                 <input type="number" class="form-control" id="jumlahRow" placeholder="Masukan Jumlah Row">
@@ -319,6 +369,7 @@
     <script src="expressTemplate/controllerTemplate.JS"></script>
     <script src="expressTemplate/modalTemplate.JS"></script>
     <script src="expressTemplate/projectTemplate.js"></script>
+    <script src="expressTemplate/authenticationTemplate.js"></script>
 
     <script src="main.js"></script>
     <script src="download.js" ></script>
@@ -330,6 +381,56 @@
             localStorage.clear();
             window.location.reload();
         }
+
+        function nextAuth() {
+            
+            var jumlahField = $("#authField").val();
+
+            let htmlfield = ``;
+            for (let i = 0; i < jumlahField; i++) {
+                
+                htmlfield += `<div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Field ${i+1}</label>
+                    <input type="text" class="form-control" id="authField${i+1}" placeholder="Masukan Nama Field ${i+1}">
+                </div>`
+                
+            }
+
+            $("#fieldAuth").html(htmlfield);
+            
+        }
+
+        function saveAuthTable() {
+
+            var jumlahField = $("#authField").val();
+            var namaTable = $("#namaTableAuth").val();
+
+
+            var isiField = [];
+
+            for (let i = 0; i < jumlahField; i++) {
+                var getfield = $('#authField'+(i+1)).val();
+                isiField.push(getfield);
+            }
+
+            console.log(isiField);
+        
+
+                var configAuth = {
+                "auth": {
+                    "field": isiField,
+                    "table": namaTable
+                },
+                
+            }
+
+            localStorage.setItem("configAuth", JSON.stringify(configAuth));
+            getDataLocal();
+                
+        }
+
+
+
     </script>
     
 

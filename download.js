@@ -87,7 +87,11 @@ function downloadProject() {
 
     // ambil data kodingan package
     var codePackage = document.querySelector("#exportedPackage code");
-        codePackage = codePackage.innerText;
+    codePackage = codePackage.innerText;
+    
+    var codeauthTable = document.querySelector("#exportedAuthTable code");
+    codeauthTable = codeauthTable.innerText;
+
 
 let configStorage = localStorage.getItem("configApp");
 // output : {"project":{"name":"merpaikoding","port":"4000"},"database":{"host":"localhost","user":"root","password":"''","database":"merapikoding"}}
@@ -106,6 +110,8 @@ configStorage = JSON.parse(configStorage);
     zip.file("project/config/database.js", codeDatabase );
     zip.file("project/index.js", codeIndex );
     zip.file("project/package.json", codePackage );
+    
+    zip.file("project/controller/login.js", codeauthTable ); // auth table
 
     // get controller and model code
     let keyDataStorage = localStorage.getItem("keyData");
