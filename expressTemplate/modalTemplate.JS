@@ -26,7 +26,7 @@ var pencarianQuery = `SELECT * FROM ${route} `
 var getAllData = `SELECT * FROM ${route}`
 
 // get Pagination
-var getPagination = `SELECT * FROM ${route} ORDER BY ID DESC LIMIT `+'${offset}, ${limit}';
+var getPagination = `SELECT * FROM ${route} ORDER BY ${ID} DESC LIMIT `+'${offset}, ${limit}';
 
 // find by ID
 var findById = `SELECT * FROM ${route} WHERE ${ID} = `+' ${ID}'

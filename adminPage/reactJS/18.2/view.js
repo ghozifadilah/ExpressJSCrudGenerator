@@ -6,7 +6,7 @@ function capitalizeLetter(string) {
 function viewAdmin() {
 
     // get local storage of table
-    let data = JSON.parse(localStorage.getItem("dataCRUd_3"));
+    let data = JSON.parse(localStorage.getItem("dataCRUd_5"));
     let dataTable = data.dataTable;
    
 
