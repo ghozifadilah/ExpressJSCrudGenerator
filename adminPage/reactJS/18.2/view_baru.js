@@ -89,7 +89,7 @@ function viewAdmin() {
             import '../assets/css/style.css';
 
             import Header from '../layout/Header';
-            import Navbar from '../layout/Navbar';
+            import Menu from '../layout/Menu';
             import Footer from '../layout/Footer';
 
             function ${capitalizeLetter(routeName)}() {
@@ -152,7 +152,7 @@ function viewAdmin() {
                     const new${capitalizeLetter(data.table)}ModalShow = () => {
                     setnew${capitalizeLetter(data.table)}(true);
                     
-                    setID('');
+                    set${data.dataTable.primary}('');
                     ${useSetState}
                     }
                     // tambah ${capitalizeLetter(data.table)}
@@ -171,7 +171,7 @@ function viewAdmin() {
                 const [edit${capitalizeLetter(data.table)}Modal, setedit${capitalizeLetter(data.table)}] = useState(false);
                 const editClose = () => {
                     setedit${capitalizeLetter(data.table)}(false);
-                    setID('');
+                    set${data.dataTable.primary}('');
                     ${useSetState}
                 }
 
@@ -181,7 +181,7 @@ function viewAdmin() {
 
                     setedit${capitalizeLetter(data.table)}(true);
                     console.log(data);
-                    setID(data.${data.dataTable.primary});
+                    set${data.dataTable.primary}(data.${data.dataTable.primary});
                     ${useSetStateEdit}
 
                 }
@@ -202,12 +202,12 @@ function viewAdmin() {
                 const [deleteModal, setdetele] = useState(false);
                 const deleteModalClose = () => {
                 setdetele(false);
-                setID('');
+                set${data.dataTable.primary}('');
                 }
                 
                 const deleteModalShow = (${data.dataTable.primary}) => {
                 setdetele(true);
-                setID(${data.dataTable.primary});
+                set${data.dataTable.primary}(${data.dataTable.primary});
                 }
 
                 const Hapus = async (e) => {
