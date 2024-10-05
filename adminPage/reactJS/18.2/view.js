@@ -64,7 +64,7 @@ function viewAdmin() {
     );
 
 
-    var routeName = 'alat';
+    var routeName = 'device';
 
     var routeLink = '`/'+routeName+'/`';
    

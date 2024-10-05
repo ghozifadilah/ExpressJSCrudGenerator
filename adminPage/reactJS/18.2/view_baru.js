@@ -6,7 +6,7 @@ function capitalizeLetter(string) {
 function viewAdmin() {
 
     // get local storage of table
-    let data = JSON.parse(localStorage.getItem("dataCRUd_1"));
+    let data = JSON.parse(localStorage.getItem("dataCRUd_2"));
     let dataTable = data.dataTable;
    
 
@@ -27,7 +27,7 @@ function viewAdmin() {
        useSetStateEdit += "set"+capitalizeLetter(dataTable.field[i])+"(data."+dataTable.field[i]+");\n";
        axiosBody += `${dataTable.field[i]} : ${dataTable.field[i]}, \n`
        formInputAdd += `
-       <label>${dataTable.field[i]} Name</label>
+       <label>${dataTable.field[i]} </label>
        <InputGroup className="mb-3 ">
          <Form.Control
            className="searchInput"
@@ -64,7 +64,7 @@ function viewAdmin() {
     );
 
 
-    var routeName = 'alat';
+    var routeName = 'sending_log';
 
     var routeLink = '`/'+routeName+'/`';
    
@@ -86,7 +86,7 @@ function viewAdmin() {
             import { Form, Button,InputGroup, Modal   } from "react-bootstrap";
             import axios from "axios";
             import { Link ,useNavigate } from 'react-router-dom';
-            import '../assets/css/style.css';
+      
 
             import Header from '../layout/Header';
             import Menu from '../layout/Menu';
@@ -257,70 +257,103 @@ function viewAdmin() {
             };
 
             // membuat list item pagination
-            const pageNumbers = [];
-            for (let i = 1; i <= Total; i++) {
-            pageNumbers.push(
-                
-                <Link to={${paginationNavigation}} onClick={() => Pagination(i)} className={currentPage === i ? 'active' : ''}>{i}</Link>
-            );
-            }
+     
+              const generatePageNumbers = (currentPage, totalPages) => {
+              const pageNumbers = [];
+              const maxPagesToShow = 5;
+              const startPage = Math.floor((currentPage - 1) / maxPagesToShow) * maxPagesToShow + 1;
+              const endPage = Math.min(startPage + maxPagesToShow - 1, totalPages);
+          
+              for (let i = startPage; i <= endPage; i++) {
+                  pageNumbers.push(
+                      // NameRoute
+                      <Link key={i} to={${paginationNavigation}} onClick={() => Pagination(i)} className={currentPage === i ? 'active' : ''}>{i}</Link>
+                  );
+              }
+          
+              return pageNumbers;
+            };
 
+
+            const formatDate = (timestamp) => {
+              const date = new Date(timestamp);
+              const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              };
+              return date.toLocaleString('en-US', options);  // Customize locale and options as needed
+            };
 
 
             return (
                 // <div className='wrapper'>
                 <div className="wrapper">
-                    
-                  {/* Side Bar */}
-                    <Header />
-              
-                  <div className="main">
-              
-                  {/* Navbar */}
-                  <Navbar />
+
+              {/* Side Bar */}
+              <Menu />
+
+              <div className="main">
+
+              {/* Navbar */}
+              <Header />
+
+                  
             
                     {/* Main Content */}
-                    <main className="content">
+                   <main className="content" style={{backgroundColor: '#101726'}}>
                           <div className="container-fluid p-0">
                   
-         
+            <h1 className=" mb-3 text-white" > <strong>${capitalizeLetter(data.table)} </strong> </h1>
                   
                             <div className="row">
                               <div className="col-12">
-                                <div className="card">
-                                  <div className="card-header">
-                                  
-                                    <h4 className="card-title mb-0">${capitalizeLetter(data.table)} List</h4>
-                                  </div>
+                               <div style={{padding: '20px',borderRadius: '10px',backgroundColor: '#222E3C'}}  className="card">
+                                 
                                   <div className="card-body">
             
                                       {/* Start Content Table */}
                 
                                   <div className="row justifty-content-center">
                                     <div className="col-12 MenuContainerLog ps-3">
-                                    <div className="container">
-                                      <div className="row " style={{marginLeft: '-15px'}}>
-                                        <Form onSubmit={filter}>
-                                              <div className="col-3">
-                                                <InputGroup className="mb-1 ">
-                                                  <Form.Control
-                                                    className="CrudSearch"
-                                                    placeholder="Search ..."
-                                                    aria-label="Cari"
-                                                    aria-describedby="basic-addon2"
-                                                    value={key}
-                                                    onChange={(e) => setKey(e.target.value)}
-                                                  />
-                                                    <Button className="btn btn-secondary ms-2 mt-1 btnSearch" type="submit">Search</Button>
-                                                </InputGroup>
-                                              </div>
-                                            </Form>
-                                        <div className="col">
-                                        <button type="button" className="btn btn-success ms-1 mb-2 mt-2"  onClick={new${capitalizeLetter(data.table)}ModalShow} >Add New ${capitalizeLetter(data.table)} </button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                      <div className="card m-2" style={{background: '#fff'}}>
+
+
+                        <div className="row">
+                          <div className="col-lg-12 d-flex justify-content-between align-items-center">
+                            {/* Add User button aligned to the left */}
+                            <button type="button" className="btn btn-primary  me-3"  onClick={new${capitalizeLetter(data.table)}ModalShow} ><i className='fa fa-plus'></i> Add ${capitalizeLetter(data.table)} </button>
+
+                            {/* Search form aligned to the right */}
+                            <Form onSubmit={filter} className="d-flex">
+                              <InputGroup className="mb-1">
+                                <Form.Control
+                                  style={{ borderRadius: '5px' }}
+                                  className="CrudSearch"
+                                  placeholder="Search ..."
+                                  aria-label="Cari"
+                                  aria-describedby="basic-addon2"
+                                  value={key}
+                                  onChange={(e) => setKey(e.target.value)}
+                                />
+                                <Button
+                                  style={{ borderRadius: '5px' }}
+                                  className="btn btn-primary ms-2 btnSearch"
+                                  type="submit"
+                                >
+                                  Search
+                                </Button>
+                              </InputGroup>
+                            </Form>
+                          </div>
+                        </div>
+
+                                    
+
+
+
+                                      <div className="card mt-2 " style={{background: '#16202b',color: '#fff'}}>
                                         <div className="card-body">
                                         <div className="table-responsive">
                                           <table className="table text-center">
@@ -353,11 +386,13 @@ function viewAdmin() {
                                           </div>
                                         </div>
                                       </div>        
-                                          <div className="pagination ms-2">
-                                            <a className={currentPage === 1 ? 'disabled' : ''} onClick={() => Pagination(currentPage - 1)}>&laquo;</a>
-                                            {pageNumbers}
-                                            <a className={currentPage === Total ? 'disabled' : ''} onClick={() => Pagination(currentPage + 1)}>&raquo;</a>
-                                          </div>
+
+                                        <div className="pagination ms-2">
+                                          <a className={currentPage === 1 ? 'disabled paginationNav' : 'paginationNav'} onClick={() => Pagination(currentPage - 1)}>&laquo;</a>
+                                          {generatePageNumbers(currentPage, Total)}
+                                          <a className={currentPage === Total ? 'disabled paginationNav' : 'paginationNav'} onClick={() => Pagination(currentPage + 1)}>&raquo;</a>
+                                        </div>
+                                       
                                       </div>
                                   </div>
                            
